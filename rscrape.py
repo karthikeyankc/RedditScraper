@@ -45,29 +45,32 @@ def scrape(subreddit_name):
 def textify(content_list):
 	
 	common_identifiers = ["LPT", "[LPT]", "TIL"]
-	ignore_tags = ["Mod Request: ", "LPT Request: "]
+	ignore_tags = ["Mod Request", "LPT Request"]
 
 	for content in content_list:
 		
-		if any(identifier in content for identifier in common_identifiers):
+		if any(ignore_tag in content for ignore_tag in ignore_tags):
+			for tag in ignore_tags:
+				if tag == "Mod Request" and tag in content:
+					content_list.remove(content)
+				elif tag == "LPT Request" and tag in content:
+					content_list.remove(content)
+		
+		elif any(identifier in content for identifier in common_identifiers):
 			for identifier in common_identifiers:
 				if identifier == "TIL" and identifier in content:
 					new = content.replace(identifier, "You should know", 1)
 					write(new)
 					break
-				elif identifier == "LPT" and identifier in content:
+				elif identifier == "LPT" or identifier == "[LPT]" and identifier in content:
 					new = content.replace(identifier, "", 1)
 					write(new)
 					break
 				else:
 					continue
-		
-		elif any(ignore_tag in content for ignore_tag in ignore_tags):
-			content_list.remove(content)
-			break
 
 		else:
-			with open("Scraped Contents from "+subreddit+".txt", 'a+') as text_file:
+			with open("scraped contents from "+subreddit+".txt", 'a+') as text_file:
 				text_file.write(content.encode('utf-8')+"\n")
 		
 	print "Scraping successful! Contents are written to 'Scraped Contents from "+subreddit+".txt'!"
@@ -80,4 +83,4 @@ content_list = scrape(subreddit)
 if content_list:
 	textify(content_list)
 else:
-	print "No data found. Make sure you check the subreddit name again."
+	print "No data found. Make sure the subreddit exists and is not private."
