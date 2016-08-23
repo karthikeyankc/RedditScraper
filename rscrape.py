@@ -12,8 +12,7 @@ def scrape(subreddit_name):
 	subreddit = subreddit_name.lstrip('/r/')
 	content_list = []
 	after = ""
-	#while after != None:
-	for x in range(1):
+	while after != None:
 		time.sleep(2)
 		url = "https://www.reddit.com/r/"+subreddit+"/top/.json?sort=top&t=all&limit=25&after="+after
 		print "\nScraping %s\n...\n...\n..." %url
