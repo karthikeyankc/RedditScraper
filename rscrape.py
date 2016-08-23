@@ -15,7 +15,7 @@ def scrape(subreddit_name):
 	while after != None:
 		time.sleep(2)
 		url = "https://www.reddit.com/r/"+subreddit+"/top/.json?sort=top&t=all&limit=25&after="+after
-		print "\nScraping %s\n...\n...\n..." %url
+		print "\nScraping %s\n...\n...\n...\n" %url
 		html = s.get(url)
 		content = html.content
 		j_dict = json.loads(content)
@@ -24,7 +24,7 @@ def scrape(subreddit_name):
 
 		children = j_dict["data"]["children"] # list
 
-		if children == True:
+		if children:
 
 			children_data = []
 
