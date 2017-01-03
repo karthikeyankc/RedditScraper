@@ -5,11 +5,11 @@ import time
 import string
 
 script, subreddit = argv
+subreddit = subreddit.lstrip('/r/')
 
-def scrape(subreddit_name):
+def scrape(subreddit):
 	s = requests.Session()
 	s.headers.update({'User-Agent':'Scraper App'})
-	subreddit = subreddit_name.lstrip('/r/')
 	content_list = []
 	after = ""
 	while after != None:
